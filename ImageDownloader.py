@@ -16,7 +16,7 @@ class NishantDownloader:
         self.url_bar = Entry(root, width= 100)
         self.url_bar.pack()
         
-        self.btn_download = Button(root, text="Save")
+        self.btn_download = Button(root, text="Save", command=self.start_download)
         self.btn_download.pack()
     
         self.image = Label(root, text="Saved Image:")
@@ -44,7 +44,12 @@ class NishantDownloader:
         except Exception as ex:
             print("Unable to download image: {ex}")
         
-    
+    def update_image(self, image):
+        tk_img = ImageTk.PhotoImage(image)
+        
+        self.image_res.config(width=tk_img.width(), height= tk_img.height())
+        self.image_res.create_image(0,0, anchor = tk.NW, image = tk_img)
+        self.image_res = tk_img    
     
     
 def main():
