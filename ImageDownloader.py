@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 from io import BytesIO
 import threading
 import os
-
+from datetime import datetime
 
 class NishantDownloader:
     def __init__(self, root):
@@ -27,6 +27,8 @@ class NishantDownloader:
         self.image_res = tk.Canvas(root, width=400, height=400)
         self.image_res.pack()
         
+       
+        
     def download_image(self):
         url = self.url_bar.get()
         if url:
@@ -41,8 +43,14 @@ class NishantDownloader:
             image = Image.open(image_data)
             image.thumbnail((400,400))
             
-            save_path = os.path.join(os.getcwd(),"untitled_image.jpg")
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            
+            filename = f"untitled_image_{timestamp}.jpg"
+            # save_path = os.path.join(os.getcwd(),filename)
+            
+            save_path = os.path.join(os.getcwd(), filename)
             image.save(save_path)
+            
             
             self.root.after(0, self.update_image, image)
             
