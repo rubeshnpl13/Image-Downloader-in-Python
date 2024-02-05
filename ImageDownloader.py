@@ -10,11 +10,11 @@ class NishantDownloader:
         self.root = root
         self.root.title("Nishant Image Dowloader")
         
-        self.url_label = Label(root, text="Enter image url that you want to download")
-        self.url_label.pack()    
+        self.url = Label(root, text="Enter image url that you want to download")
+        self.url.pack()    
         
-        self.url_entry = Entry(root, width= 100)
-        self.url_entry.pack()
+        self.url_bar = Entry(root, width= 100)
+        self.url_bar.pack()
         
         self.btn_download = Button(root, text="Save")
         self.btn_download.pack()
@@ -25,6 +25,28 @@ class NishantDownloader:
         self.image_res = tk.Canvas(root, width=400, height=400)
         self.image_res.pack()
         
+    def save_image(self):
+        url = self.url_bar.get()
+        if url:
+            #thread for saving image
+            save_thread = threading.Thread(target=self.download_image, args=(url, ))
+            save_thread.start()
+            
+    def save_image(self, url):
+        try:
+            response = urlopen(url)
+            image_data = BytesIO(response.read())
+            image = Image.open(image_data)
+            image.thumbnail((400,400))
+            
+            self.root.after(0, self.update_image, image)
+            
+        except Exception as ex:
+            print("Unable to download image: {ex}")
+        
+    
+    
+    
 def main():
     root = tk.Tk()
     app = NishantDownloader(root)
