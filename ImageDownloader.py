@@ -4,6 +4,8 @@ from urllib.request import urlopen
 from PIL import Image, ImageTk
 from io import BytesIO
 import threading
+import os
+
 
 class NishantDownloader:
     def __init__(self, root):
@@ -38,6 +40,9 @@ class NishantDownloader:
             image_data = BytesIO(response.read())
             image = Image.open(image_data)
             image.thumbnail((400,400))
+            
+            save_path = os.path.join(os.getcwd(),"untitled_image.jpg")
+            image.save(save_path)
             
             self.root.after(0, self.update_image, image)
             
